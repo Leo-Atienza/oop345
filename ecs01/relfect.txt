@@ -1,0 +1,10 @@
+Name: Leo Atienza
+I.D. 121941249
+Section: NRB
+
+Reflection for Exercise 1. 
+
+1. External Linkage can be accessed from other files. Internal Linkage can only be accessed from the same file. g_taxrate and g_dailydiscount are both examples of External Linkage. 
+2. It helps a variable remember it's value. I used them in my display() function for the counter variable. 
+3. I avoided memory leaks by making use of the Rule Of Three (Copy Constructor, Copy Assignment Operator, and Destructor) and a small helper function that I made for read() but was too lazy to use it in the other functions. 
+
