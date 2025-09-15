@@ -1,6 +1,7 @@
 #ifndef SENECA_FOODORDER_H
 #define SENECA_FOODORDER_H
 #include <iostream>
+#include <string>
 
 extern double g_taxrate;
 extern double g_dailydiscount;
