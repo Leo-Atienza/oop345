@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClCompile Include="dictionary.cpp" />
     <ClCompile Include="event.cpp" />
+    <ClCompile Include="logger.cpp" />
     <ClCompile Include="settings.cpp" />
     <ClCompile Include="tester_1.cpp" />
     <ClCompile Include="timeMonitor.cpp" />

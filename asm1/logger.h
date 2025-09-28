@@ -25,19 +25,7 @@ namespace seneca {
 		std::size_t m_size = 0;
 		std::size_t m_capacity = 0;
 
-		void grow() {
-			
-			std::size_t newCap = m_capacity ? (m_capacity * 2) : 8;
-			Event* cpy = new Event[newCap];
-			
-			if (m_events && m_size) {
-				std::copy_n(m_events, m_size, cpy);
-			}
-			
-			delete[] m_events;
-			m_events = cpy;
-			m_capacity = newCap;
-		}
+		void grow();
 
 	public:
 
@@ -45,9 +33,7 @@ namespace seneca {
 		Logger() = default;
 
 		// Destructor
-		~Logger() {
-			delete[] m_events;
-		}
+		~Logger();
 
 		// Copy Constructor (not allowed)
 		Logger(const Logger& other) = delete;
@@ -56,44 +42,14 @@ namespace seneca {
 		Logger& operator=(const Logger& other) = delete;
 
 		// move
-		Logger(Logger&& other) noexcept : m_events(other.m_events), m_size(other.m_size), m_capacity(other.m_capacity) {
-			
-			other.m_events = nullptr;
-			other.m_size = 0;
-			other.m_capacity = 0;
+		Logger(Logger&& other) noexcept : m_events(other.m_events), m_size(other.m_size), m_capacity(other.m_capacity);
 
-		}
+		Logger& operator=(Logger&& other) noexcept;
 
-		Logger& operator=(Logger&& other) noexcept {
-			
-			if (this != &other) {
+		void addEvent(const Event& evnt);
 
-				delete[] m_events;
+		friend std::ostream& operator<<(std::ostream& os, const Logger& lgr);
 
-				m_events = other.m_events;
-				m_size = other.m_size;
-				m_capacity = other.m_capacity;
-
-				other.m_events = nullptr;
-				other.m_size = 0;
-				other.m_capacity = 0;
-			}
-			return *this;
-		}
-
-		void addEvent(const Event& evnt) {
-			if (m_size == m_capacity) {
-				grow();
-			}
-			m_events[m_size++] = evnt;
-		}
-
-		friend std::ostream& operator<<(std::ostream& os, const Logger& lgr) {
-			for (std::size_t i = 0; i < lgr.m_size; ++i) {
-				os << lgr.m_events[i] << "\n";
-			}
-			return os;
-		}
 	};
 }
 
