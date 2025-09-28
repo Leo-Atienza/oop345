@@ -5,11 +5,15 @@
 // I.D. 121941249
 // Email: ljaatienza@myseneca.ca
 // Date: September 20, 2025
+************************************************************************
+//I declare that this submission is the result of my own work and I only copied the code that my professor provided to complete my assignments.
+//This submitted piece of work has not been shared with any other student or 3rd party content provider.
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #ifndef SENECA_LOGGER_H
 #define SENECA_LOGGER_H
 #include "event.h"
+#include <algorithm>
 #include <cstddef>
 #include <ostream>
 
@@ -26,8 +30,8 @@ namespace seneca {
 			std::size_t newCap = m_capacity ? (m_capacity * 2) : 8;
 			Event* cpy = new Event[newCap];
 			
-			for (std::size_t i = 0; i < m_size; ++i) {
-				cpy[i] = m_events[i];
+			if (m_events && m_size) {
+				std::copy_n(m_events, m_size, cpy);
 			}
 			
 			delete[] m_events;

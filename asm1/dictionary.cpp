@@ -5,6 +5,10 @@
 // I.D. 121941249
 // Email: ljaatienza@myseneca.ca
 // Date: September 20, 2025
+************************************************************************
+//I declare that this submission is the result of most of my own work and I copied the code that my professor provided to complete my assignments. 
+//However, I used AI for 2 of the long functions that I have spent too much time in. 
+//This submitted piece of work has not been shared with any other student or 3rd party content provider.
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #include "dictionary.h"
@@ -74,22 +78,40 @@ namespace seneca {
 		return pos;
 	}
 
-	string Dictionary::posToString(PartOfSpeech p) {
-		
-		static const char* sph[] = {
-			"unknown","noun","pronoun","adjective","adverb",
-			"verb","preposition","conjunction","interjection"
-		};
-		
-		int num = static_cast<int>(p);
-		int name = static_cast<int>(sizeof(sph) / sizeof(sph[0]));
-		
-		string out = "unknown";
-		if (num >= 0 && num < name) out = sph[num];
-		
-		return out; 
-	}
+	std::string Dictionary::posToString(PartOfSpeech p) {
+		string str = "unknown";
 
+		switch (p) {
+		case PartOfSpeech::Noun:
+			str = "noun";
+			break;
+		case PartOfSpeech::Pronoun:
+			str = "pronoun";
+			break;
+		case PartOfSpeech::Adjective:
+			str = "adjective";
+			break;
+		case PartOfSpeech::Adverb:
+			str = "adverb";
+			break;
+		case PartOfSpeech::Verb:
+			str = "verb";
+			break;
+		case PartOfSpeech::Preposition:
+			str = "preposition";
+			break;
+		case PartOfSpeech::Conjunction:
+			str = "conjunction";
+			break;
+		case PartOfSpeech::Interjection:
+			str = "interjection";
+			break;
+		default:
+			str = "unknown";
+			break;
+		}
+		return str;
+	}
 
 	// Had help from chatgpt 
 	// I'm sorry, This is giving me brain damage
@@ -219,5 +241,9 @@ namespace seneca {
 		if (!fnd) {
 			cout << "Word '" << target << "' was not found in the dictionary.\n";
 		}
+	}
+
+	Dictionary::~Dictionary() {
+		delete[] m_words;
 	}
 }

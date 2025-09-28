@@ -34,9 +34,6 @@
     <ClCompile Include="timeMonitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="logger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
