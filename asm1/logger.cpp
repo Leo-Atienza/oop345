@@ -18,16 +18,16 @@ namespace seneca {
 
 	void Logger::grow() {
 
-		std::size_t newCap = m_capacity ? (m_capacity * 2) : 8;
-		Event* cpy = new Event[newCap];
+		size_t nc = m_capacity ? (m_capacity * 2) : 8;
+		Event* cpy = new Event[nc];
 
-		if (m_events && m_size) {
-			copy_n(m_events, m_size, cpy);
+		for (size_t i = 0; i < m_size; ++i) {
+			cpy[i] = m_events[i];
 		}
 
 		delete[] m_events;
 		m_events = cpy;
-		m_capacity = newCap;
+		m_capacity = nc;
 	}
 
 	Logger::~Logger() {
