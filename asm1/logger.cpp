@@ -11,6 +11,7 @@
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #include "logger.h"
+#include <iostream>
 
 using namespace std;
 namespace seneca {
@@ -65,11 +66,10 @@ namespace seneca {
 		m_events[m_size++] = evnt;
 	}
 
-	ostream& operator<<(std::ostream& os, const Logger& lgr) {
+	std::ostream& operator<<(std::ostream& os, const Logger& lgr) {
 		for (std::size_t i = 0; i < lgr.m_size; ++i) {
-			os << lgr.m_events[i] << "\n";
+			os << lgr.m_events[i] << '\n';
 		}
 		return os;
 	}
-
 }

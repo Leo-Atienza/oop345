@@ -12,45 +12,34 @@
 ***********************************************************************/
 #ifndef SENECA_LOGGER_H
 #define SENECA_LOGGER_H
-#include "event.h"
-#include <algorithm>
+
 #include <cstddef>
-#include <ostream>
+#include <iosfwd>
+#include "event.h"
 
 namespace seneca {
 
-	class Logger {
+    class Logger {
+        Event* m_events{ nullptr };
+        std::size_t m_size{ 0 };
+        std::size_t m_capacity{ 0 };
 
-		Event* m_events = nullptr;
-		std::size_t m_size = 0;
-		std::size_t m_capacity = 0;
+        void grow();
 
-		void grow();
+    public:
+        Logger() = default;
+        ~Logger();
 
-	public:
+        Logger(const Logger&) = delete;
+        Logger& operator=(const Logger&) = delete;
 
-		// Default Constructor
-		Logger() = default;
+        Logger(Logger&& other) noexcept;
+        Logger& operator=(Logger&& other) noexcept;
 
-		// Destructor
-		~Logger();
+        void addEvent(const Event& evnt);
 
-		// Copy Constructor (not allowed)
-		Logger(const Logger& other) = delete;
-		
-		// Copy Assignment Operator (not allowed)
-		Logger& operator=(const Logger& other) = delete;
-
-		// move
-		Logger(Logger&& other) noexcept : m_events(other.m_events), m_size(other.m_size), m_capacity(other.m_capacity);
-
-		Logger& operator=(Logger&& other) noexcept;
-
-		void addEvent(const Event& evnt);
-
-		friend std::ostream& operator<<(std::ostream& os, const Logger& lgr);
-
-	};
+        friend std::ostream& operator<<(std::ostream& os, const Logger& lgr);
+    };
 }
 
-#endif
+#endif 
