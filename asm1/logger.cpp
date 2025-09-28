@@ -22,7 +22,7 @@ namespace seneca {
 		Event* cpy = new Event[newCap];
 
 		if (m_events && m_size) {
-			std::copy_n(m_events, m_size, cpy);
+			copy_n(m_events, m_size, cpy);
 		}
 
 		delete[] m_events;
@@ -66,8 +66,8 @@ namespace seneca {
 		m_events[m_size++] = evnt;
 	}
 
-	std::ostream& operator<<(std::ostream& os, const Logger& lgr) {
-		for (std::size_t i = 0; i < lgr.m_size; ++i) {
+	ostream& operator<<(ostream& os, const Logger& lgr) {
+		for (size_t i = 0; i < lgr.m_size; ++i) {
 			os << lgr.m_events[i] << '\n';
 		}
 		return os;
