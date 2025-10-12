@@ -29,7 +29,7 @@ namespace seneca {
 	public:
 
 		Archer(const char* name, int healthMax, int baseAttack, int baseDefense, Weapon_t weapon) 
-			: CharacterTpl<SuperHealth>(name, healthMax), m_baseDefense(baseDefense), m_baseAttack(baseAttack), m_weapon(weapon) {
+			: CharacterTpl<SuperHealth>(name, healthMax), m_baseAttack(baseAttack), m_baseDefense(baseDefense), m_weapon(weapon) {
 
 		}
 
