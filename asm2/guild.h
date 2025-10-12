@@ -22,7 +22,7 @@ namespace seneca {
 		std::size_t m_count{};
 		std::string m_name{};
 
-		void clear(); // recheck - this is not in the module
+		void clear();
 
 	public:
 

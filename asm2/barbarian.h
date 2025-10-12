@@ -6,8 +6,8 @@
 // Email: ljaatienza@myseneca.ca
 // Date: Oct 10, 2025
 ************************************************************************
-//I declare that this submission is the result of my own work and I only copied the code that my professor provided to complete my assignments.
-//This submitted piece of work has not been shared with any other student or 3rd party content provider.
+//I declare that this submission is mostly the result of my own work and I copied the code that my professor provided to complete my assignments and also asked chatgpt for help with 1 function.
+//This submitted piece of work has been shared with chatgpt.
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #ifndef SENECA_BARBARIAN_H
