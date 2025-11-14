@@ -1,0 +1,31 @@
+/***********************************************************************
+// OOP345 Assignment 3
+//
+// Name: Leo Atienza
+// I.D. 121941249
+// Email: ljaatienza@myseneca.ca
+// Date: November 7, 2025
+************************************************************************
+//I declare that this submission is the result of my own work and I only copied the code that my professor provided to complete my assignments.
+//This submitted piece of work has not been shared with any other student or 3rd party content provider.
+/////////////////////////////////////////////////////////////////
+***********************************************************************/
+
+#ifndef SENECA_SETTINGS_H
+#define SENECA_SETTINGS_H
+
+namespace seneca {
+
+	struct Settings {
+	
+	public: 
+		
+		short m_maxSummaryWidth{ 80 };
+		bool m_tableView{ false };
+
+	};
+
+	extern Settings g_settings;
+
+}
+#endif
