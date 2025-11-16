@@ -6,8 +6,8 @@
 // Email: ljaatienza@myseneca.ca
 // Date: November 14, 2025
 ************************************************************************
-//I declare that this submission is the result of my own work and I only copied the code that my professor provided to complete my assignments.
-//This submitted piece of work has not been shared with any other student or 3rd party content provider.
+//I declare that this submission is mostly the result of my own work and I copied the code that my professor provided to complete my assignments and also asked chatgpt for help with 1 function.
+//This submitted piece of work has been shared with chatgpt.
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #ifndef SENECA_TVSHOW_H
@@ -79,6 +79,7 @@ namespace seneca {
         return nullptr;
     }
 
+    // had help from chatgpt
     template<typename Collection_t>
     void TvShow::addEpisode(Collection_t& col, const std::string& strEpisode) {
 
@@ -114,8 +115,44 @@ namespace seneca {
         trim(episode.m_airDate);
 
         pos = line.find(',');
-        episode.m_length = static_cast<unsigned int>(std::stoi(line.substr(0, pos)));
+        std::string lengthStr = line.substr(0, pos);
         line.erase(0, pos + 1);
+        trim(lengthStr);
+
+        unsigned int totalSeconds{};
+        if (!lengthStr.empty()) {
+            try {
+                size_t colon1 = lengthStr.find(':');
+                if (colon1 == std::string::npos) {
+                    totalSeconds = static_cast<unsigned int>(std::stoi(lengthStr)) * 60u;
+                }
+                else {
+                    size_t colon2 = lengthStr.find(':', colon1 + 1);
+                    unsigned int hours{};
+                    unsigned int minutes{};
+                    unsigned int seconds{};
+
+                    hours = static_cast<unsigned int>(std::stoi(lengthStr.substr(0, colon1)));
+
+                    if (colon2 != std::string::npos) {
+                        minutes = static_cast<unsigned int>(std::stoi(
+                            lengthStr.substr(colon1 + 1, colon2 - colon1 - 1)));
+                        seconds = static_cast<unsigned int>(std::stoi(
+                            lengthStr.substr(colon2 + 1)));
+                    }
+                    else {
+                        minutes = static_cast<unsigned int>(std::stoi(
+                            lengthStr.substr(colon1 + 1)));
+                    }
+
+                    totalSeconds = hours * 3600u + minutes * 60u + seconds;
+                }
+            }
+            catch (...) {
+                totalSeconds = 0;
+            }
+        }
+        episode.m_length = totalSeconds;
 
         pos = line.find(',');
         if (pos != std::string::npos) {
