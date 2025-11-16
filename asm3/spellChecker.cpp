@@ -4,7 +4,7 @@
 // Name: Leo Atienza
 // I.D. 121941249
 // Email: ljaatienza@myseneca.ca
-// Date: November 7, 2025
+// Date: November 14, 2025
 ************************************************************************
 //I declare that this submission is the result of my own work and I only copied the code that my professor provided to complete my assignments.
 //This submitted piece of work has not been shared with any other student or 3rd party content provider.
@@ -18,65 +18,65 @@
 using namespace std;
 namespace seneca {
 
-    SpellChecker::SpellChecker(const char* filename) {
-        
-        ifstream fin(filename);
-        
-        if (!fin) {
-            throw string("Bad file name!");
+    void SpellChecker::loadSpellingFile(const char* filename) {
+
+        ifstream file(filename);
+        if (!file) {
+            throw "Bad file name!";
         }
-        
-        for (int i = 0; i < 6; ++i) {
-            m_badWords[i].clear();
-            m_goodWords[i].clear();
-            m_counts[i] = 0;
-        }
-        
+
         string line;
-        int idx = 0;
-        
-        while (idx < 6 && getline(fin, line)) {
-            
+        size_t index = 0;
+
+        while (getline(file, line) && index < MAX_WORDS) {
+
             istringstream iss(line);
-            string bad, good;
-            
-            if (iss >> bad >> good) {
-                m_badWords[idx] = bad;
-                m_goodWords[idx] = good;
-                ++idx;
+            iss >> m_badWords[index] >> m_goodWords[index];
+
+            if (!m_badWords[index].empty() && !m_goodWords[index].empty()) {
+                m_replacementCount[index] = 0;
+                ++index;
             }
         }
+    }
+
+    SpellChecker::SpellChecker(const char* filename) {
+
+        for (size_t i = 0; i < MAX_WORDS; ++i) {
+            m_replacementCount[i] = 0;
+        }
+
+        loadSpellingFile(filename);
     }
 
     void SpellChecker::operator()(string& text) {
-        
-        for (int i = 0; i < 6; ++i) {
-            
-            const string& from = m_badWords[i];
-            const string& to = m_goodWords[i];
-            
-            if (from.empty()) continue;
-            size_t pos = 0;
-            
-            while ((pos = text.find(from, pos)) != string::npos) {
-                text.replace(pos, from.size(), to);
-                pos += to.size();
-                ++m_counts[i];
+
+        for (size_t i = 0; i < MAX_WORDS; ++i) {
+
+            if (!m_badWords[i].empty()) {
+
+                size_t pos = 0;
+
+                while ((pos = text.find(m_badWords[i], pos)) != string::npos) {
+
+                    text.replace(pos, m_badWords[i].length(), m_goodWords[i]);
+                    pos += m_goodWords[i].length();
+                    ++m_replacementCount[i];
+                }
             }
         }
     }
 
+    void SpellChecker::showStatistics(ostream& out) const {
 
-    void SpellChecker::showStatistics(std::ostream& out) const {
-        
-        out << "Spellchecker Statistics\n";
-        
-        for (int i = 0; i < 6; ++i) {
+        out << "Spellchecker Statistics" << endl;
+
+        for (size_t i = 0; i < MAX_WORDS; ++i) {
+
             if (!m_badWords[i].empty()) {
-                
-                out << left << setw(15) << m_badWords[i] << ": " << m_counts[i] << " replacements\n";
+                out << left << setw(15) << m_badWords[i]
+                    << ": " << m_replacementCount[i] << " replacements" << endl;
             }
         }
-        out << right; 
     }
 }

@@ -4,7 +4,7 @@
 // Name: Leo Atienza
 // I.D. 121941249
 // Email: ljaatienza@myseneca.ca
-// Date: November 7, 2025
+// Date: November 14, 2025
 ************************************************************************
 //I declare that this submission is the result of my own work and I only copied the code that my professor provided to complete my assignments.
 //This submitted piece of work has not been shared with any other student or 3rd party content provider.
@@ -14,21 +14,28 @@
 #define SENECA_SPELLCHECKER_H
 
 #include <string>
-#include <iosfwd>
+#include <iostream>
 
 namespace seneca {
 
-	class SpellChecker {
-		std::string m_badWords[6]{};
-		std::string m_goodWords[6]{};
-		unsigned m_counts[6]{};
+    class SpellChecker {
 
-	public:
+        static const size_t MAX_WORDS = 6;
 
-		explicit SpellChecker(const char* filename);
-		void operator()(std::string& text);
-		void showStatistics(std::ostream& out) const;
+        std::string m_badWords[MAX_WORDS]{};
+        std::string m_goodWords[MAX_WORDS]{};
+        size_t m_replacementCount[MAX_WORDS]{};
 
-	};
+        void loadSpellingFile(const char* filename);
+
+    public:
+
+        SpellChecker(const char* filename);
+
+        void operator()(std::string& text);
+
+        void showStatistics(std::ostream& out) const;
+
+    };
 }
 #endif

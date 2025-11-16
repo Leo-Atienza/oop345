@@ -4,114 +4,100 @@
 // Name: Leo Atienza
 // I.D. 121941249
 // Email: ljaatienza@myseneca.ca
-// Date: November 7, 2025
+// Date: November 14, 2025
 ************************************************************************
 //I declare that this submission is the result of my own work and I only copied the code that my professor provided to complete my assignments.
 //This submitted piece of work has not been shared with any other student or 3rd party content provider.
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
-
 #include "book.h"
+#include "settings.h"
 #include <iomanip>
-#include <stdexcept>
+#include <sstream>
 
 using namespace std;
 namespace seneca {
 
-    Book::Book(const std::string& author, const std::string& title, const std::string& country, unsigned short year, double price, const std::string& summary) 
-        : m_author(author), m_country(country), m_price(price)
-    {
-        setTitle(title);
-        setYear(year);
-        setSummary(summary);
-    }
-    
-    // had help from chatgpt
-    Book* Book::createItem(const std::string& strBook) {
-
-        Book* result{};
-
-        string rec = strBook;
-        MediaItem::trim(rec);
-        
-        if (rec.empty() || rec[0] == '#') {
-            throw "Not a valid book.";
-        }
-
-        string author, title, country, priceStr, yearStr, summary;
-        size_t start = 0, pos = rec.find(',');
-
-        auto take = [&](std::string& out) {
-            
-            string tok = rec.substr(start, (pos == string::npos ? rec.size() : pos) - start);
-            MediaItem::trim(tok);
-            out = tok;
-            start = (pos == string::npos) ? rec.size() : pos + 1;
-            pos = rec.find(',', start);
-        };
-
-        take(author);
-        take(title);
-        take(country);
-        take(priceStr);
-        take(yearStr);
-
-        {
-            string tok = rec.substr(start);
-            MediaItem::trim(tok);
-            summary = tok;
-        }
-
-        if (author.empty() || title.empty() || country.empty() || priceStr.empty() || yearStr.empty() || summary.empty()) {
-            throw "Not a valid book.";
-        }
-
-        double price{};
-        unsigned short year{};
-        
-        try {
-            price = stod(priceStr);
-            year = static_cast<unsigned short>(std::stoi(yearStr));
-        }
-        catch (...) {
-            throw "Not a valid book.";
-        }
-
-        result = new Book(author, title, country, year, price, summary);
-        return result;
+    Book::Book(const string& title, const string& summary, unsigned short year,
+        const string& author, const string& country, double price)
+        : MediaItem(title, summary, year), m_author(author), m_country(country), m_price(price) {
     }
 
-    // Had help from chatgpt
+    string Book::extractToken(string& str, char delimiter) {
+
+        size_t pos = str.find(delimiter);
+        string token;
+
+        if (pos != string::npos) {
+            token = str.substr(0, pos);
+            str.erase(0, pos + 1);
+        }
+        else {
+            token = str;
+            str.clear();
+        }
+
+        trim(token);
+        return token;
+    }
+
     void Book::display(ostream& out) const {
-        
+
         if (g_settings.m_tableView) {
-            
-            out << "B | " << left << setfill('.') << setw(50) << getTitle() << " | "
-                << right << setfill(' ') << setw(2) << m_country << " | " << setw(4) << getYear() << " | " << left;
+            out << "B | ";
+            out << left << setfill('.');
+            out << setw(50) << this->getTitle() << " | ";
+            out << right << setfill(' ');
+            out << setw(2) << this->m_country << " | ";
+            out << setw(4) << this->getYear() << " | ";
+            out << left;
 
             if (g_settings.m_maxSummaryWidth > -1) {
-                const auto lim = static_cast<size_t>(g_settings.m_maxSummaryWidth);
-                if (getSummary().size() <= lim) out << getSummary();
-                else out << getSummary().substr(0, lim - 3) << "...";
+                if (static_cast<short>(this->getSummary().size()) <= g_settings.m_maxSummaryWidth)
+                    out << this->getSummary();
+                else
+                    out << this->getSummary().substr(0, g_settings.m_maxSummaryWidth - 3) << "...";
             }
-            else {
-                out << getSummary();
-            }
-            out << '\n';
-        }
+            else
+                out << this->getSummary();
 
+            out << endl;
+        }
         else {
-
             size_t pos = 0;
-            out << getTitle() << " [" << getYear() << "] [" << m_author << "] [" << m_country << "] [" << m_price << "]\n";
-            out << setw(getTitle().size() + 7) << setfill('-') << "" << '\n';
-            setfill(' ');
+            out << this->getTitle() << " [" << this->getYear() << "] [";
+            out << m_author << "] [" << m_country << "] [" << m_price << "]\n";
+            out << setw(this->getTitle().size() + 7) << setfill('-') << "" << '\n';
 
-            while (pos < getSummary().size()) {
-                out << "    " << getSummary().substr(pos, static_cast<size_t>(g_settings.m_maxSummaryWidth)) << '\n';
-                pos += static_cast<size_t>(g_settings.m_maxSummaryWidth);
+            while (pos < this->getSummary().size()) {
+                out << "    " << this->getSummary().substr(pos, g_settings.m_maxSummaryWidth) << '\n';
+                pos += g_settings.m_maxSummaryWidth;
             }
-            out << setw(getTitle().size() + 7) << setfill('-') << "" << setfill(' ') << '\n';
+
+            out << setw(this->getTitle().size() + 7) << setfill('-') << ""
+                << setfill(' ') << '\n';
         }
+    }
+
+    Book* Book::createItem(const string& strBook) {
+
+        if (strBook.empty() || strBook[0] == '#') {
+            throw "Not a valid book.";
+        }
+
+        string line = strBook;
+
+        string author = extractToken(line, ',');
+        string title = extractToken(line, ',');
+        string country = extractToken(line, ',');
+        string priceStr = extractToken(line, ',');
+        string yearStr = extractToken(line, ',');
+        string summary = line;
+        trim(summary);
+
+        double price = stod(priceStr);
+        unsigned short year = static_cast<unsigned short>(stoi(yearStr));
+
+        return new Book(title, summary, year, author, country, price);
     }
 }

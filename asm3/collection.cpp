@@ -4,115 +4,135 @@
 // Name: Leo Atienza
 // I.D. 121941249
 // Email: ljaatienza@myseneca.ca
-// Date: November 7, 2025
+// Date: November 14, 2025
 ************************************************************************
 //I declare that this submission is the result of my own work and I only copied the code that my professor provided to complete my assignments.
 //This submitted piece of work has not been shared with any other student or 3rd party content provider.
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #include "collection.h"
-#include "mediaItem.h"
 #include <algorithm>
 #include <stdexcept>
 
 using namespace std;
 namespace seneca {
 
+    Collection::Collection(const string& name) : m_name(name) {
+    }
+
     Collection::~Collection() {
-        
-        for (auto* p : m_items) {
-            delete p;
+
+        for (auto item : m_items) {
+            delete item;
         }
+        m_items.clear();
     }
 
     void Collection::setObserver(void (*observer)(const Collection&, const MediaItem&)) {
-        
         m_observer = observer;
     }
 
     Collection& Collection::operator+=(MediaItem* item) {
-        
-        if (item) {
 
-            auto it = std::find_if(m_items.begin(), m_items.end(), [](const MediaItem* m) {
-                return m != nullptr;
-            });
-            (void)it;
+        if (item != nullptr) {
 
-            bool exists = std::any_of(m_items.begin(), m_items.end(), [t = item->getTitle()](const MediaItem* m) {
-                return m && m->getTitle() == t;
-            });
+            bool exists = any_of(m_items.begin(), m_items.end(),
+                [item](const MediaItem* existing) {
+                    return existing->getTitle() == item->getTitle();
+                });
 
             if (exists) {
                 delete item;
             }
             else {
                 m_items.push_back(item);
-                if (m_observer) m_observer(*this, *item);
+
+                if (m_observer) {
+                    m_observer(*this, *item);
+                }
             }
         }
+
         return *this;
     }
 
     MediaItem* Collection::operator[](size_t idx) const {
-        
+
         if (idx >= m_items.size()) {
-            throw out_of_range( string("Bad index [") + to_string(idx) + 
-                "]. Collection has [" + to_string(m_items.size()) + "] items.");
+            string message = "Bad index [" + to_string(idx) + "]. Collection has ["
+                + to_string(m_items.size()) + "] items.";
+            throw out_of_range(message);
         }
+
         return m_items[idx];
     }
 
+    MediaItem* Collection::operator[](const string& title) const {
 
-    MediaItem* Collection::operator[](const std::string& title) const {
+        auto it = find_if(m_items.begin(), m_items.end(),
+            [title](const MediaItem* item) {
+                return item->getTitle() == title;
+            });
 
-        auto it = std::find_if(m_items.begin(), m_items.end(), [title](const MediaItem* m) {
-            return m && m->getTitle() == title;
-        });
-
-        return it == m_items.end() ? nullptr : *it;
+        return (it != m_items.end()) ? *it : nullptr;
     }
 
-
     void Collection::removeQuotes() {
-        
-        for_each(m_items.begin(), m_items.end(), [](MediaItem* m) {
-            if (!m) return;
-            
-            auto t = m->getTitle();
-            auto s = m->getSummary();
-            
-            if (t.size() >= 2 && t.front() == '"' && t.back() == '"')
-                t = t.substr(1, t.size() - 2);
 
-            if (s.size() >= 2 && s.front() == '"' && s.back() == '"')
-                s = s.substr(1, s.size() - 2);
-            
-            m->setTitle(t);
-            m->setSummary(s);
-        });
+        auto removeQuotesFromString = [](string& str) {
+
+            if (!str.empty() && str.front() == '"') {
+                str.erase(0, 1);
+            }
+
+            if (!str.empty() && str.back() == '"') {
+                str.pop_back();
+            }
+        };
+
+        for_each(m_items.begin(), m_items.end(),
+            [removeQuotesFromString](MediaItem* item) {
+                string title = item->getTitle();
+                string summary = item->getSummary();
+
+                removeQuotesFromString(title);
+                removeQuotesFromString(summary);
+
+                item->setTitle(title);
+                item->setSummary(summary);
+            });
     }
 
     void Collection::sort(const string& field) {
 
-        if (field == "year") {
-            std::sort(m_items.begin(), m_items.end(), [](const MediaItem* a, const MediaItem* b) {
-                return a->getYear() < b->getYear();
-            });
+        if (field == "title") {
+            std::sort(m_items.begin(), m_items.end(),
+                [](const MediaItem* a, const MediaItem* b) {
+                    return a->getTitle() < b->getTitle();
+                });
         }
-
-        else {
-            std::sort(m_items.begin(), m_items.end(), [](const MediaItem* a, const MediaItem* b) {
-                return a->getTitle() < b->getTitle();
-            });
+        
+        else if (field == "year") {
+            std::sort(m_items.begin(), m_items.end(),
+                [](const MediaItem* a, const MediaItem* b) {
+                    return a->getYear() < b->getYear();
+                });
+        }
+        
+        else if (field == "summary") {
+            std::sort(m_items.begin(), m_items.end(),
+                [](const MediaItem* a, const MediaItem* b) {
+                    return a->getSummary() < b->getSummary();
+                });
         }
     }
 
-    ostream& operator<<(ostream& out, const Collection& c) {
-        
-        for (size_t i = 0; i < c.m_items.size(); ++i) {
-            out << *c.m_items[i];
+    ostream& operator<<(ostream& out, const Collection& col) {
+
+        for (const auto& item : col.m_items) {
+            out << *item;
         }
+
         return out;
     }
 }
