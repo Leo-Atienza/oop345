@@ -7,7 +7,6 @@
 // Date: November 26, 2025
 ************************************************************************
 // This is my own work, however, I did get help from chatgpt to optimize these helper functions. 
-// I made this to make everything easier.
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #ifndef SENECA_UTILITIES_H

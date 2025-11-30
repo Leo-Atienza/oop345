@@ -27,7 +27,6 @@ namespace seneca {
         return m_widthField;
     }
 
-    // Helper 1
     static std::string trimString(const std::string& str) {
 
         size_t start = str.find_first_not_of(" \t\r\n");
