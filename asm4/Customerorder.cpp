@@ -6,9 +6,9 @@
 // Email: ljaatienza@myseneca.ca
 // Date: November 26, 2025
 ************************************************************************
-//I declare that this submission is the result of my own work and I copied the code that my professor provided to complete my assignments and past assignments. 
-//This submitted piece of work has been shared by making use of ai to help me debug and create helper functions.
-////////////////////////////////////////////////////////////////
+//I declare that this submission is the result of my own work and I only copied the code that my professor provided to complete my assignments.
+//This submitted piece of work has not been shared with any other student or 3rd party content provider.
+/////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #include "CustomerOrder.h"
 #include "Utilities.h"
@@ -80,7 +80,8 @@ namespace seneca {
         throw std::runtime_error("----> ERROR: Cannot make copies.");
     }
 
-    CustomerOrder::CustomerOrder(CustomerOrder&& other) noexcept : m_name(std::move(other.m_name)), m_product(std::move(other.m_product)), m_cntItem(other.m_cntItem), m_lstItem(other.m_lstItem) {
+    CustomerOrder::CustomerOrder(CustomerOrder&& other) noexcept : m_name(std::move(other.m_name)), m_product(std::move(other.m_product)),
+        m_cntItem(other.m_cntItem), m_lstItem(other.m_lstItem) {
 
         other.m_lstItem = nullptr;
         other.m_cntItem = 0;
@@ -154,7 +155,6 @@ namespace seneca {
                 else {
 
                     os << "    Unable to fill " << m_name << ", " << m_product << " [" << m_lstItem[i]->m_itemName << "]" << std::endl;
-                    break;
                 }
             }
         }
