@@ -27,7 +27,7 @@
     <ClCompile Include="tester_1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Customerorder.cpp">
+    <ClCompile Include="CustomerOrder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Station.cpp">
@@ -44,7 +44,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Customerorder.h">
+    <ClInclude Include="CustomerOrder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Station.h">

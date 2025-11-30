@@ -132,7 +132,7 @@
     <Text Include="tester_3_sample_output.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Customerorder.cpp" />
+    <ClCompile Include="CustomerOrder.cpp" />
     <ClCompile Include="LineManager.cpp" />
     <ClCompile Include="Station.cpp" />
     <ClCompile Include="tester_1.cpp" />
@@ -140,7 +140,7 @@
     <ClCompile Include="Workstation.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Customerorder.h" />
+    <ClInclude Include="CustomerOrder.h" />
     <ClInclude Include="LineManager.h" />
     <ClInclude Include="Station.h" />
     <ClInclude Include="Utilities.h" />

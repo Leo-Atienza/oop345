@@ -6,7 +6,7 @@
 // Email: ljaatienza@myseneca.ca
 // Date: November 26, 2025
 ************************************************************************
-//I declare that this submission is the result of my own work and I copied the code that my professor provided to complete my assignments.
+//I declare that this submission is the result of my own work and I copied the code that my professor provided to complete my assignments and past assignments. 
 //This submitted piece of work has been shared by making use of ai to help me debug and create helper functions.
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
