@@ -1,0 +1,4 @@
+Reflection.
+
+As the semester ends, I would like to thank my professor for being kind, considerate, and understanding. I feared OOP345 when I heard about, but the professor made it easy by deconstructing everything and turning it into byte (got the joke?) sized pieces. I will not lie, I made use of my old code, my professor's code, and AI to quickly finish this Assignment because everything is pilling up and I just wanted to finish this but also learn from it, but mostly finish it. 
+The C++ journey from semester 1 till now has been exhausting and hard, but i'm glad to have learned a lot from it. I'm just now mostly glad that i'm done with C++. 
