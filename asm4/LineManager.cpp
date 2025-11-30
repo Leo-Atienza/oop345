@@ -21,7 +21,6 @@ namespace seneca {
 
     // Helper to find station by name
     Workstation* LineManager::findStation(const std::string& name,
-
         const std::vector<Workstation*>& stations) const {
         auto it = std::find_if(stations.begin(), stations.end(),
             [&name](const Workstation* ws) {
@@ -32,7 +31,6 @@ namespace seneca {
     }
 
     LineManager::LineManager(const std::string& file,
-
         const std::vector<Workstation*>& stations) {
 
         std::ifstream fin(file);
