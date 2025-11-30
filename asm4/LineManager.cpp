@@ -6,8 +6,8 @@
 // Email: ljaatienza@myseneca.ca
 // Date: November 26, 2025
 ************************************************************************
-//I declare that this submission is the result of my own work and I copied the code that my professor provided to complete my assignments and past assignments.
-//This submitted piece of work has been shared by making use of ai to help me debug and create helper functions.
+//I declare that this submission is mostly the result of my own work and I copied the code that my professor provided to complete my assignments and also asked chatgpt for help with the implementation of the helper function.
+//This submitted piece of work has been shared with chatgpt.
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #include "LineManager.h"
@@ -43,8 +43,6 @@ namespace seneca {
         Utilities util;
         util.setDelimiter('|');
 
-        m_activeLine = stations;
-
         std::vector<Workstation*> nextStations;
 
         std::string record;
@@ -59,6 +57,7 @@ namespace seneca {
             Workstation* current = findStation(currentName, stations);
 
             if (current != nullptr) {
+                m_activeLine.push_back(current);
 
                 if (more) {
                     std::string nextName = util.extractToken(record, pos, more);
@@ -74,12 +73,12 @@ namespace seneca {
 
         fin.close();
 
-        auto first = std::find_if(stations.begin(), stations.end(), [&nextStations](const Workstation* ws) {
+        auto first = std::find_if(m_activeLine.begin(), m_activeLine.end(), [&nextStations](const Workstation* ws) {
             return std::find(nextStations.begin(),
                 nextStations.end(), ws) == nextStations.end();
             });
 
-        if (first != stations.end()) {
+        if (first != m_activeLine.end()) {
             m_firstStation = *first;
         }
         else {
