@@ -6,7 +6,7 @@
 // Email: ljaatienza@myseneca.ca
 // Date: November 26, 2025
 ************************************************************************
-// This is my own work but I copied some of the code I made from Assignment 3 for the display function.
+// This is my own work but I copied some of the code I made from Assignment 3 for the display function and I also made use of my professor's code.
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #include "Station.h"

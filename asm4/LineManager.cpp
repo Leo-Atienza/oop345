@@ -6,8 +6,8 @@
 // Email: ljaatienza@myseneca.ca
 // Date: November 26, 2025
 ************************************************************************
-//I declare that this submission is mostly the result of my own work and I copied the code that my professor provided to complete my assignments and also asked chatgpt for help with the implementation of the helper function.
-//This submitted piece of work has been shared with chatgpt.
+//I declare that this submission is the result of my own work and I copied the code that my professor provided to complete my assignments and past assignments.
+//This submitted piece of work has been shared by making use of ai to help me debug and create helper functions.
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #include "LineManager.h"

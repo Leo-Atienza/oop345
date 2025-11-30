@@ -6,8 +6,8 @@
 // Email: ljaatienza@myseneca.ca
 // Date: November 26, 2025
 ************************************************************************
-// This is my own work, however, I did get help from chatgpt to optimize these helper functions.
-// I made this to make everything easier.
+// This is my own work, however, I did get help from chatgpt to optimize these helper functions. I also got ideas from my professor's examples
+// and past codes from 244. 
 /////////////////////////////////////////////////////////////////
 ***********************************************************************/
 #include "Utilities.h"
